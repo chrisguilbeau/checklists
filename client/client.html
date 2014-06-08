@@ -1,0 +1,32 @@
+<head>
+    <link rel="icon" type="image/png" href="/logo.png">
+</head>
+
+<body>
+    <div id='main' class='flex-col'>
+        <div id='top' class='tight'>{{> topbar}}</div>
+        <div id='middle' class='flex-row'>
+            <div id='checklists' class='flex-col tight'>{{> checklists}}</div>
+            <div id='tasks' class='flex-col tight'>{{> tasks}}</div>
+            <div id='attachments' class='flex-col'>{{> attachments}}</div>
+        </div>
+        <div id='bottom' class='tight'>bottom</div>
+    </div>
+</body>
+
+<template name='topbar'>
+    {{username}} | {{version}}
+</template>
+
+<template name='checklists'>
+    <div class='titlebar'>checklists</div>
+</template>
+
+<template name='tasks'>
+tasks
+</template>
+
+<template name='attachments'>
+attachments
+</template>
+

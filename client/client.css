@@ -1,0 +1,149 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
+
+*, button, input{
+    font-family: Open Sans;
+    outline: none;
+}
+
+body{
+    background: url(/garden-top.png) top left repeat-x;
+}
+
+.items{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+#top, #middle > div{
+    background-color: rgba(248, 248, 253, 0.9);
+    /* background-color: white; */
+    /* filter: blur(5px); */
+    /* opacity: 0.8; */
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+#middle > div{
+    border-radius: 0.3em 0.3em 0 0;
+    margin: 0.2em;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+}
+
+#middle > div *{
+    opacity: 1;
+}
+
+#bottom{
+    /* border-top: 0.1em solid black; */
+    text-align: center;
+    background: url(/garden-bottom.png) bottom left repeat-x;
+    color: white;
+    text-shadow: 0 0.1em black;
+}
+
+.buttons{
+    padding: 0.2em;
+}
+
+.left-pad, .titlebar, #top .title, #top .version{
+    padding-left:0.3em;
+}
+
+.titlebar{
+    /* border-bottom: 0.1em solid black; */
+    /* border-bottom: 0.1em solid black; */
+    /* min-width:15em; */
+    /* box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); */
+    /* z-index:100; */
+}
+
+.empty, .filled, .checked, .unchecked{
+    margin: 0.2em;
+    height: 1em;
+    width: 1em;
+}
+
+.count{
+    color: #999;
+    padding: 0.3em;
+}
+
+.checked{
+    background: url(/checked.png) center center no-repeat;
+    background-size: 100%;
+}
+
+.unchecked{
+    background: url(/unchecked.png) center center no-repeat;
+    background-size: 100%;
+}
+
+.filled{
+    background: url(/filled.png) center center no-repeat;
+    background-size: 100%;
+}
+
+.empty{
+    background: url(/empty.png) center center no-repeat;
+    background-size: 100%;
+}
+
+div.grip{
+  cursor: url(/openhand.cur) 4 4, move;
+}
+
+.ui-sortable-helper div.grip:active{
+  cursor: url(/closedhand.cur) 4 4, move;
+}
+
+.item{
+    background-color: white;
+    text-shadow: none;
+    border-bottom: 0.1em solid #ddd;
+}
+
+.item.selected{
+    background-color: #e5e5fe;
+}
+
+.item .name{
+    min-height: 1em;
+    cursor: default;
+    padding-left: 0.2em;
+    padding-right: 0.3em;
+}
+
+.item input[type=checkbox]{
+    margin: 0.5em;
+    margin-left: 0em;
+    padding:0;
+}
+
+.item .grip{
+    /* border: 1px solid red; */
+    height: 2em;
+    width: 1em;
+    background: url(/grip.png) center center no-repeat;
+    background-size: auto 1em;
+}
+
+button{
+    border: 0;
+    border-radius: 0.2em;
+    color: #444;
+    background-color: #ddd;
+    font-weight: bold;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin: 0.2em;
+}
+
+button:hover{
+    /* background-color: #eee; */
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+}
+
+button:active{
+    box-shadow: none;
+}

@@ -4,29 +4,53 @@
 
 <body>
     <div id='main' class='flex-col'>
-        <div id='top' class='tight'>{{> topbar}}</div>
+        <div id='top' class='flex-row tight'>{{> topbar}}</div>
         <div id='middle' class='flex-row'>
             <div id='checklists' class='flex-col tight'>{{> checklists}}</div>
             <div id='tasks' class='flex-col tight'>{{> tasks}}</div>
             <div id='attachments' class='flex-col'>{{> attachments}}</div>
         </div>
-        <div id='bottom' class='tight'>bottom</div>
+        <div id='bottom' class='tight'>{{> copyright}}</div>
     </div>
 </body>
 
 <template name='topbar'>
-    {{username}} | {{version}}
+    <div class='title left-pad tight'>{{username}}</div>
+    <div class='left-pad'>{{version}}</div>
 </template>
 
 <template name='checklists'>
-    <div class='titlebar'>checklists</div>
+    <div class='titlebar tight'>Checklists</div>
+    <div class='items'> {{#each items}}{{> item this}}{{/each}} </div>
+    <div class='buttons tight'><button class='new'>New</button></div>
 </template>
 
 <template name='tasks'>
-tasks
+    <div class='titlebar tight'>Tasks</div>
+    <div class='items'> {{#each items}}{{> item this}}{{/each}} </div>
+    <div class='buttons tight'>
+        {{#if hasCurrentChecklistId}}
+        <button class='new'>New</button>
+        {{/if}}
+    </div>
+</template>
+
+<template name='item'>
+    <div itemId='{{_id}}' class='item flex-row center{{selected _id}}'>
+        <div class='grip tight'></div>
+        <div class='tight'>
+            <div itemId='{{_id}}' class='checker {{getCheckedClass checked}}'>
+            </div>
+        </div>
+        <div itemId='{{_id}}' class='name' >{{name}}</div>
+        <div class='count tight'>{{count _id}}</div>
+    </div>
 </template>
 
 <template name='attachments'>
-attachments
+    <div class='titlebar tight'>Attachments</div>
 </template>
 
+<template name='copyright'>
+    Copyright 2014 Honest Ox Productions
+</template>

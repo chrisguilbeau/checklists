@@ -32,18 +32,25 @@
         {{#if hasCurrentChecklistId}}
         <button class='new'>New</button>
         {{/if}}
+        {{#if showSubtaskButton}}
+        <button class='sub'>Subtask</button>
+        {{/if}}
     </div>
 </template>
 
 <template name='item'>
+    <div itemId='{{_id}}'>
     <div itemId='{{_id}}' class='item flex-row center{{selected _id}}'>
         <div class='grip tight'></div>
-        <div class='tight'>
-            <div itemId='{{_id}}' class='checker {{getCheckedClass checked}}'>
-            </div>
-        </div>
+        <div class='tight'><input type='checkbox' {{checkedProp checked}}/></div>
         <div itemId='{{_id}}' class='name' >{{name}}</div>
         <div class='count tight'>{{count _id}}</div>
+    </div>
+    {{#if parentId}}
+    <div class='children items' itemId={{_id}}>
+        {{#each items _id}}{{> item this}}{{/each}}
+    </div>
+    {{/if}}
     </div>
 </template>
 

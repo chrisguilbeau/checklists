@@ -17,9 +17,12 @@ Meteor.methods({
         },
     updateItem: function(itemId, updates){
         var query = {_id: itemId};
+        console.log(query);
+        console.log(updates);
         Items.update(query, {$set: updates});
         },
-    deleteItem: function(itemIds){
+    deleteItems: function(itemIds){
+        console.log(itemIds);
         Items.remove({_id: {$in: itemIds}});
         }
     });

@@ -2,7 +2,12 @@
 
 *, button, input{
     font-family: Open Sans;
+    font-size: 11pt;
     outline: none;
+}
+
+button{
+    font-size: 9pt;
 }
 
 body{
@@ -33,12 +38,21 @@ body{
     opacity: 1;
 }
 
+.children{
+    margin-left: 1em;
+}
+
+.children.items{
+    overflow: hidden;
+}
+
 #bottom{
     /* border-top: 0.1em solid black; */
     text-align: center;
     background: url(/garden-bottom.png) bottom left repeat-x;
     color: white;
     text-shadow: 0 0.1em black;
+    padding-top: 0.7em;
 }
 
 .buttons{
@@ -52,7 +66,9 @@ body{
 .titlebar{
     /* border-bottom: 0.1em solid black; */
     /* border-bottom: 0.1em solid black; */
-    /* min-width:15em; */
+    min-width:10em;
+    /* font-weight: bold; */
+    color: rgba(0,0,0,0.5);
     /* box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); */
     /* z-index:100; */
 }
@@ -75,6 +91,11 @@ body{
 
 .unchecked{
     background: url(/unchecked.png) center center no-repeat;
+    background-size: 100%;
+}
+
+.unchecked:active{
+    background: url(/unchecked-active.png) center center no-repeat;
     background-size: 100%;
 }
 
@@ -132,7 +153,7 @@ button{
     border-radius: 0.2em;
     color: #444;
     background-color: #ddd;
-    font-weight: bold;
+    /* font-weight: bold; */
     padding: 0.5em;
     padding-left: 1em;
     padding-right: 1em;

@@ -3,17 +3,19 @@ function getUserId(){
 }
 
 Meteor.methods({
-    newItem: function(name, parentId){
+    newItem: function(name, parentId, order){
         var userId = getUserId();
+        order = typeof order !== 'undefined' ? order : 0;
         item = {
             canSee: [userId],
             canEdit:[userId],
             name: name,
             parentId: parentId,
             checked: false,
-            order: 0
+            order: order,
+            timestamp: Date.now()
             }
-        Items.insert(item);
+        return Items.insert(item);
         },
     updateItem: function(itemId, updates){
         var query = {_id: itemId};

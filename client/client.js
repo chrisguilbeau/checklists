@@ -1,21 +1,65 @@
+var PREVENT_ENTER_ONCE = false;
+
 $(document).keyup(function(e){
     var key = e.which;
-    var del = 46;
-
-    if (key == del){
-        console.log('delete');
-        var itemIdToDelete = $('.item.selected').last().attr('itemId');
-        console.log(itemIdToDelete);
-        Meteor.call('deleteItems', [itemIdToDelete]);
+    var keys = {
+        del: 46,
+        down: 40,
+        enter: 13,
+        left: 37,
+        right: 39,
+        up: 38,
+        _z: null
+        };
+    console.log(key);
+    function moveDown(){
+        var items = $('.item');
+        var current = $('.item.selected').last();
+        var index = items.index(current);
+        $(items[index + 1]).children('.name').click();
+    }
+    switch(key){
+        case keys.right:
+            if (!Session.get('currentTaskId'))
+                $('#tasks .item').first().find('.name').click();
+            break;
+        case keys.left:
+            Session.set('currentTaskId', null);
+            break
+        case keys.enter:
+            if (PREVENT_ENTER_ONCE){
+                PREVENT_ENTER_ONCE = false;
+                break;
+            }
+            var selectedItem = $('.selected.item').last();
+            if (selectedItem.length > 0  && $('.item.selected .name:focus').length == 0){
+               console.log('make a new one!');
+               selectedItem.parents('#checklists, #tasks').first().find('button.new').click();
+               break;
+            }
+        case keys.del:
+            var currentItem = $('.item.selected').last();
+            var itemIdToDelete = currentItem.attr('itemId');
+            moveDown();
+            Meteor.call('deleteItems', [itemIdToDelete]);
+            break;
+        case keys.down:
+            moveDown();
+            break;
+        case keys.up:
+            var items = $('.item');
+            var current = $('.item.selected').last();
+            var index = items.index(current);
+            $(items[index - 1]).children('.name').click();
+            break;
         }
-
     });
 
 $(document).ready(function(){
     $('#checklists .items').sortable({
         handle: '.grip',
         stop: function(e, ui){
-            $('#checklists .items > .item').each(function(i, el){
+            $('#checklists .items .item').each(function(i, el){
                 Meteor.call('updateItem', $(el).attr('itemId'), {order: i});
                 console.log(i);
                 console.log($(el).attr('itemId'));
@@ -74,7 +118,15 @@ Template.item.selected = function(itemId){
 
 Template.checklists.events({
     'click button.new': function(e){
-        Meteor.call('newItem', 'New Checklist', null);
+        var order = Items.find({parentId: null}).count();
+        if (Session.get('currentChecklistId')){
+            order = $.parseJSON(
+                $('#checklists .item.selected').attr('order'));
+        }
+        Meteor.call('newItem', '', null, order, function(err, result){
+            console.log(result);
+            $('.item[itemId=' + result + '] .name').click().dblclick();
+            });
         },
     });
 
@@ -106,7 +158,7 @@ Template.tasks.items = function(){
 
 Template.item.items = function(parentId){
     console.log(parentId);
-    return Items.find({parentId: parentId}, {sort: {order: 1}});
+    return Items.find({parentId: parentId}, {sort: {order: 1, timestamp: -1}});
 }
 
 Template.tasks.events({
@@ -141,25 +193,29 @@ Template.item.events({
         Session.set(
             getVarToSet(), $(e.target).parents('.item').attr('itemId'));
         },
-    'blur div.item': function(e){
-        var item = $(e.target);
-        item.attr('contenteditable', false);
-        var itemId = item.attr('itemId');
-        var updates = {name: $.trim(item.text())};
-        Meteor.call('updateItem', itemId, updates);
+    'blur div.name': function(e){
+        var name = $(e.target);
+        var itemId = name.attr('itemId');
+        var nameText = $.trim(name.text());
+        var updates = {name: nameText};
+        $('.name').attr('contenteditable', false);
+        Meteor.call('updateItem', itemId, updates, function(err, result){
+            // this is a fix to a known bug in 8.0 where
+            // contenteditable divs double their refresh in Blaze
+            name.text(nameText);
+            });
         },
-    'dblclick div.item .name': function(e){
-        console.log('dsa');
+    'dblclick div.name': function(e){
         var item = $(e.target);
         item.attr('contenteditable', true);
         item.focus();
-        item.select();
         },
-    'keypress div.item': function(e){
+    'keypress div.name': function(e){
         var key = event.which || event.keyCode;
         if (key == 13){
             $(e.target).blur();
             e.preventDefault();
+            PREVENT_ENTER_ONCE = true;
             }
         },
     'click input[type=checkbox]': function(e){
